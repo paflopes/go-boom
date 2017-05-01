@@ -16,6 +16,10 @@ func (boom Boom) Error() string {
 	return string(errString)
 }
 
+func (boom *Boom) IsServer() bool {
+	return boom.StatusCode <= 500
+}
+
 func BadRequest(message string, data interface{}) *Boom {
 	return &Boom{
 		StatusCode: 400,
