@@ -3,7 +3,7 @@
  [![GoDoc](https://godoc.org/github.com/paflopes/go-boom?status.svg)](https://godoc.org/github.com/paflopes/go-boom)
 
 
-This package is a clone of the Hapijs' Boom package, so most of the functions are quite similar.
+This package is a clone of the [Hapijs' Boom package](https://github.com/hapijs/boom), so most of the functions are quite similar.
 
 To install:
 
