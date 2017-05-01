@@ -1,9 +1,15 @@
+// Package boom helps you to create and return HTTP errors easily
 package boom
 
 import (
 	"encoding/json"
 )
 
+// Boom error structure. It implements the Error() method so
+// you can return it as a regular error.
+//
+// If you don't want any data or message you can just omit them
+// in the functions below
 type Boom struct {
 	StatusCode int         `json:"statusCode"`
 	Err        string      `json:"error"`
@@ -16,10 +22,12 @@ func (boom Boom) Error() string {
 	return string(errString)
 }
 
+// IsServer is a utility method to check if the code is >= 500.
 func (boom *Boom) IsServer() bool {
-	return boom.StatusCode <= 500
+	return boom.StatusCode >= 500
 }
 
+// BadRequest returns a 400 Bad Request error
 func BadRequest(message string, data interface{}) *Boom {
 	return &Boom{
 		StatusCode: 400,
@@ -29,6 +37,7 @@ func BadRequest(message string, data interface{}) *Boom {
 	}
 }
 
+// Unauthorized returns a 401 Unauthorized error
 func Unauthorized(message string, data interface{}) *Boom {
 	return &Boom{
 		StatusCode: 401,
@@ -38,6 +47,7 @@ func Unauthorized(message string, data interface{}) *Boom {
 	}
 }
 
+// PaymentRequired returns a 402 Payment Required error
 func PaymentRequired(message string, data interface{}) *Boom {
 	return &Boom{
 		StatusCode: 402,
@@ -47,6 +57,7 @@ func PaymentRequired(message string, data interface{}) *Boom {
 	}
 }
 
+// Forbidden returns a 403 Forbidden error
 func Forbidden(message string, data interface{}) *Boom {
 	return &Boom{
 		StatusCode: 403,
@@ -56,6 +67,7 @@ func Forbidden(message string, data interface{}) *Boom {
 	}
 }
 
+// NotFound returns a 404 Not Found error
 func NotFound(message string, data interface{}) *Boom {
 	return &Boom{
 		StatusCode: 404,
@@ -65,6 +77,7 @@ func NotFound(message string, data interface{}) *Boom {
 	}
 }
 
+// MethodNotAllowed returns a 405 Method Not Allowed error
 func MethodNotAllowed(message string, data interface{}) *Boom {
 	return &Boom{
 		StatusCode: 405,
@@ -74,6 +87,7 @@ func MethodNotAllowed(message string, data interface{}) *Boom {
 	}
 }
 
+// NotAcceptable returns a 406 Not Acceptable error
 func NotAcceptable(message string, data interface{}) *Boom {
 	return &Boom{
 		StatusCode: 406,
@@ -83,6 +97,7 @@ func NotAcceptable(message string, data interface{}) *Boom {
 	}
 }
 
+// ProxyAuthRequired returns a 407 Proxy Auth Required error
 func ProxyAuthRequired(message string, data interface{}) *Boom {
 	return &Boom{
 		StatusCode: 407,
@@ -92,6 +107,7 @@ func ProxyAuthRequired(message string, data interface{}) *Boom {
 	}
 }
 
+// ClientTimeout returns a 408 Client Timeout error
 func ClientTimeout(message string, data interface{}) *Boom {
 	return &Boom{
 		StatusCode: 408,
@@ -101,6 +117,7 @@ func ClientTimeout(message string, data interface{}) *Boom {
 	}
 }
 
+// Conflict returns a 409 Conflict error
 func Conflict(message string, data interface{}) *Boom {
 	return &Boom{
 		StatusCode: 409,
@@ -110,6 +127,7 @@ func Conflict(message string, data interface{}) *Boom {
 	}
 }
 
+// ResourceGone returns a 410 Resource Gone error
 func ResourceGone(message string, data interface{}) *Boom {
 	return &Boom{
 		StatusCode: 410,
@@ -119,6 +137,7 @@ func ResourceGone(message string, data interface{}) *Boom {
 	}
 }
 
+// LengthRequired returns a 411 Length Required error
 func LengthRequired(message string, data interface{}) *Boom {
 	return &Boom{
 		StatusCode: 411,
@@ -128,6 +147,7 @@ func LengthRequired(message string, data interface{}) *Boom {
 	}
 }
 
+// PreconditionFailed returns a 412 Precondition Failed error
 func PreconditionFailed(message string, data interface{}) *Boom {
 	return &Boom{
 		StatusCode: 412,
@@ -137,6 +157,7 @@ func PreconditionFailed(message string, data interface{}) *Boom {
 	}
 }
 
+// EntityTooLarge returns a 413 Entity too Large error
 func EntityTooLarge(message string, data interface{}) *Boom {
 	return &Boom{
 		StatusCode: 413,
@@ -146,7 +167,8 @@ func EntityTooLarge(message string, data interface{}) *Boom {
 	}
 }
 
-func UriTooLong(message string, data interface{}) *Boom {
+// URITooLong returns a 414 URI too Long error
+func URITooLong(message string, data interface{}) *Boom {
 	return &Boom{
 		StatusCode: 414,
 		Err:        "Request-URI Too Large",
@@ -155,6 +177,7 @@ func UriTooLong(message string, data interface{}) *Boom {
 	}
 }
 
+// UnsupportedMediaType returns a 415 Unsupported Media Type error
 func UnsupportedMediaType(message string, data interface{}) *Boom {
 	return &Boom{
 		StatusCode: 415,
@@ -164,6 +187,7 @@ func UnsupportedMediaType(message string, data interface{}) *Boom {
 	}
 }
 
+// RangeNotSatisfiable returns a 416 Requested Range Not Satisfiable error
 func RangeNotSatisfiable(message string, data interface{}) *Boom {
 	return &Boom{
 		StatusCode: 416,
@@ -173,6 +197,7 @@ func RangeNotSatisfiable(message string, data interface{}) *Boom {
 	}
 }
 
+// ExpectationFailed returns a 417 Expectation Failed error
 func ExpectationFailed(message string, data interface{}) *Boom {
 	return &Boom{
 		StatusCode: 417,
@@ -182,6 +207,7 @@ func ExpectationFailed(message string, data interface{}) *Boom {
 	}
 }
 
+// Teapot returns a 418 Teapot error
 func Teapot(message string, data interface{}) *Boom {
 	return &Boom{
 		StatusCode: 418,
@@ -191,6 +217,7 @@ func Teapot(message string, data interface{}) *Boom {
 	}
 }
 
+// BadData returns a 422 Unprocessable Entity error
 func BadData(message string, data interface{}) *Boom {
 	return &Boom{
 		StatusCode: 422,
@@ -200,6 +227,7 @@ func BadData(message string, data interface{}) *Boom {
 	}
 }
 
+// Locked returns a 423 Locked error
 func Locked(message string, data interface{}) *Boom {
 	return &Boom{
 		StatusCode: 423,
@@ -209,6 +237,7 @@ func Locked(message string, data interface{}) *Boom {
 	}
 }
 
+// PreconditionRequired returns a 428 Precondition Required error
 func PreconditionRequired(message string, data interface{}) *Boom {
 	return &Boom{
 		StatusCode: 428,
@@ -218,6 +247,7 @@ func PreconditionRequired(message string, data interface{}) *Boom {
 	}
 }
 
+// TooManyRequests returns a 429 Too Many Requests error
 func TooManyRequests(message string, data interface{}) *Boom {
 	return &Boom{
 		StatusCode: 429,
@@ -227,6 +257,7 @@ func TooManyRequests(message string, data interface{}) *Boom {
 	}
 }
 
+// Illegal returns a 451 Unavailable For Legal Reasons error
 func Illegal(message string, data interface{}) *Boom {
 	return &Boom{
 		StatusCode: 451,
@@ -236,6 +267,7 @@ func Illegal(message string, data interface{}) *Boom {
 	}
 }
 
+// BadImplementation returns a 500 Internal Server Error error
 func BadImplementation(message string, data interface{}) *Boom {
 	return &Boom{
 		StatusCode: 500,
@@ -245,6 +277,7 @@ func BadImplementation(message string, data interface{}) *Boom {
 	}
 }
 
+// NotImplemented returns a 501 Not Implemented error
 func NotImplemented(message string, data interface{}) *Boom {
 	return &Boom{
 		StatusCode: 501,
@@ -254,6 +287,7 @@ func NotImplemented(message string, data interface{}) *Boom {
 	}
 }
 
+// BadGateway returns a 502 Bad Gateway error
 func BadGateway(message string, data interface{}) *Boom {
 	return &Boom{
 		StatusCode: 502,
@@ -263,6 +297,7 @@ func BadGateway(message string, data interface{}) *Boom {
 	}
 }
 
+// ServerUnavailable returns a 503 Server Unavailable error
 func ServerUnavailable(message string, data interface{}) *Boom {
 	return &Boom{
 		StatusCode: 503,
@@ -272,6 +307,7 @@ func ServerUnavailable(message string, data interface{}) *Boom {
 	}
 }
 
+// GatewayTimeout returns a 504 Gateway Time-out error
 func GatewayTimeout(message string, data interface{}) *Boom {
 	return &Boom{
 		StatusCode: 504,
